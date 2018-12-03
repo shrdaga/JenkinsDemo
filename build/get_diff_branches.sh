@@ -2,12 +2,13 @@
 export LESSCHARSET=utf-8
 
 targetBranch=$2
+echo $targetBranch
 
 echo 'Starting git diff'
-cd C:/Jenkins/workspace/TrailheadBranchDemo
+cd ..
 echo 'Switching to origin/'$targetBranch
 git checkout -f origin/$targetBranch
-echo 'Merging target branch ('$1') into current branch (origin/'$targetBranch')'
+echo 'Merging target branch ('$1') into current branch ('origin/$targetBranch')'
 git merge --no-commit --no-ff $1
 echo 'Merged. Looking for conflicts'
 git ls-files -u | awk '{$1=$2=$3=""; print $0}' | awk '{ sub(/^[ \t]+/, ""); print }' | sort -u > conflicts.txt

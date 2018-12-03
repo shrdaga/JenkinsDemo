@@ -20,7 +20,7 @@
 	</condition>
 	<taskdef resource="com/salesforce/antlib.xml" uri="antlib:com.salesforce">
 		<classpath>
-			<pathelement location="../migration_tool/ant-salesforce.jar" />
+			<pathelement location="../../migration_tool/ant-salesforce.jar" />
 		</classpath>
 	</taskdef>
 	<!-- ========================================== -->
@@ -28,7 +28,7 @@
 	<!-- ========================================== -->
 	<target name="sf_prepare_deployment">
 		<echo message="START: Create diff dir" />
-		<echo message="Checking against targer: ${target}" />
+		<echo message="Checking against target: ${target}" />
 		<mkdir dir="../${diffDir}" />
 		<mkdir dir="../${diffDir}/src" />
 		<exec executable="C:\Program Files\Git\bin\bash.exe" osfamily="windows" failonerror="true">
@@ -39,6 +39,7 @@
 		<exec executable="/bin/bash" osfamily="unix" failonerror="true">
 			<arg value="${scriptName}.sh" />
 			<arg value="${target}" />
+			<arg value="${targetName}" />
 		</exec>
 		<exec executable="C:\Program Files\Git\bin\bash.exe" osfamily="windows">
 			<arg value="create_changes.sh" />
@@ -53,13 +54,13 @@
 
 		<exec executable="C:\Program Files\Git\bin\bash.exe" osfamily="windows">
 			<arg value="generate_package.sh" />
-			<arg value="C:/Jenkins/workspace/TrailheadBranchDemo/final.txt" />
+			<arg value="../final.txt" />
 			<arg value="package" />
-			<arg value="C:/Jenkins/workspace/deploy/src" />
+			<arg value="../${diffDir}/src" />
 		</exec>
 
 		<exec executable="/bin/bash" osfamily="unix">
-			<arg value="generate_package.sh" />
+			<arg value="generate_package_unix.sh" />
 			<arg value="../final.txt" />
 			<arg value="package" />
 			<arg value="../${diffDir}/src" />
@@ -80,12 +81,7 @@
 		</exec>
 		<echo message="Properties added. Finished." />
 	</target>
-	<target name="sf_prepare_full_deployment">
-		<echo message="START: Copying deployment files" />
-		<copy todir="../${diffDir}/src">
-			<fileset dir="../src" excludes="**/staticresources/**" />
-		</copy>
-	</target>
+
 	<target name="sf_build" depends="sf_prepare_deployment">
 		<echo message="START: SFDC Deployment" />
 		<echo message="../${diffDir}/src" />
@@ -96,33 +92,5 @@
 		            runAllTests="${sf.runAllTests}" logType="${sf.logType}"
 		/>
 	</target>
-	<target name="sf_build_independent" depends="sf_prepare_full_deployment">
-		<echo message="Adding properties if applicable" />
-		<exec executable="/bin/bash" osfamily="unix">
-			<arg value="properties_helper.sh" />
-			<arg value="${propsEnv}" />
-			<arg value="../${diffDir}/src" />
-		</exec>
-		<echo message="Properties added. Finished." />
-		<echo message="START: SFDC Deployment" />
-		<echo message="../${diffDir}/src" />
-		<sf:deploy  username="${sf.deploy.username}" password="${sf.deploy.password}"
-		            serverurl="${sf.deploy.serverurl}" sessionId="${sf.deploy.sessionId}"
-		            deployRoot="../${diffDir}/src" maxPoll="${sf.maxPoll}"
-		            pollWaitMillis="${sf.pollWaitMillis}" checkOnly="${sf.checkOnly}"
-		            runAllTests="${sf.runAllTests}" logType="${sf.logType}"
-		/>
-	</target>
-	<target name="git_tag">
-		<echo message="Build date is: ${BUILD_DATE}" />
-		<echo message="Build number: ${BUILD_NUMBER}" />
-		<echo message="Build tag name will be: ${ENV}_${BUILD_DATE}_${BUILD_NUMBER}" />
-		<echo message="Creating tag on current repository" />
-		<exec executable="/bin/bash" osfamily="unix">
-			<arg value="create_tag.sh" />
-			<arg value=".." />
-			<arg value="${ENV}_${BUILD_DATE}_${BUILD_NUMBER}" />
-			<arg value="${REPO_PASS}" />
-		</exec>
-	</target>
+
 </project>

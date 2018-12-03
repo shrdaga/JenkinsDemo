@@ -185,16 +185,15 @@ then
                                         echo Matching rule inbound...
                                 else
                                         echo Generating new member for $ENTITY
-                                        C:/Jenkins/workspace/xmlstarlet/xmlstarlet/xml.exe ed -L -s "Package/types[name='$TYPENAME']" -t elem -n members -v "$ENTITY" $SCRIPTFILE
+                                        xmlstarlet ed -L -s "/Package/types[name='$TYPENAME']" -t elem -n members -v "$ENTITY" $SCRIPTFILE
                                 fi
                                 #Wohack end
                         else
-                                echo enity here is $ENTITY
                                 echo Generating new $TYPENAME type
-                                C:/Jenkins/workspace/xmlstarlet/xmlstarlet/xml.exe ed -L -s Package -t elem -n types -v "" $SCRIPTFILE
-                                C:/Jenkins/workspace/xmlstarlet/xmlstarlet/xml.exe ed -L -s 'Package/types[not(*)]' -t elem -n name -v "$TYPENAME" $SCRIPTFILE
+                                xmlstarlet ed -L -s /Package -t elem -n types -v "" $SCRIPTFILE
+                                xmlstarlet ed -L -s '/Package/types[not(*)]' -t elem -n name -v "$TYPENAME" $SCRIPTFILE
                                 echo Generating new member for $ENTITY
-                                C:/Jenkins/workspace/xmlstarlet/xmlstarlet/xml.exe ed -L -s "Package/types[name='$TYPENAME']" -t elem -n members -v "$ENTITY" $SCRIPTFILE
+                                xmlstarlet ed -L -s "/Package/types[name='$TYPENAME']" -t elem -n members -v "$ENTITY" $SCRIPTFILE
                         fi
                 else
                         echo ERROR: UNSUPPORTED FILE TYPE $CFILE
@@ -203,9 +202,9 @@ then
         echo Cleaning up package.xml
         if [[ "$2" != *"destructive"* ]]
         then
-                C:/Jenkins/workspace/xmlstarlet/xmlstarlet/xml.exe ed -L -s Package -t elem -n version -v "43.0" $SCRIPTFILE
+                xmlstarlet ed -L -s /Package -t elem -n version -v "43.0" $SCRIPTFILE
         fi
-        C:/Jenkins/workspace/xmlstarlet/xmlstarlet/xml.exe ed -L -i Package -t attr -n xmlns -v "http://soap.sforce.com/2006/04/metadata" $SCRIPTFILE
+        xmlstarlet ed -L -i /Package -t attr -n xmlns -v "http://soap.sforce.com/2006/04/metadata" $SCRIPTFILE
         echo ====FINAL PACKAGE.XML=====
         cat $SCRIPTFILE
 else

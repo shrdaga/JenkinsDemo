@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #/bin/sh
 
 file="./env/$1.properties"
