@@ -17,5 +17,5 @@ global with sharing class AccountManager {
     public static void testThisMethod(){
         System.debug('');
     }
-    //some comment
+    //some comment2
 }
