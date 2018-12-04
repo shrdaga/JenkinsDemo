@@ -15,7 +15,7 @@ global with sharing class AccountManager {
 
 
     // Commit on linux test
-    // Commit on linux test 2
+
     public static void testThisMethod(){
         System.debug('');
     }
