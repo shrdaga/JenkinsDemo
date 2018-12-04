@@ -12,10 +12,10 @@ global with sharing class AccountManager {
         ];
         return acc;
     }
-
     // Commit on linux test
 
     public static void testThisMethod(){
         System.debug('');
     }
+    //some comment
 }
