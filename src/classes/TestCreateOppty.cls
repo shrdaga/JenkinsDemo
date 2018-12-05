@@ -18,3 +18,5 @@ public class TestCreateOppty {
         System.assertEquals(lo[0].CloseDate, Date.today().addMonths(1));
     }
 }
+
+//comment
