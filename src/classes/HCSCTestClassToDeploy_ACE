@@ -6,7 +6,7 @@
 public class HCSCTestClassToDeploy_ACE {
 
     public static void sayHello() {
-        System.debug('HCSCTestClassToDeploy_ACE Say Hello World');
+        System.debug('HCSCTestClassToDeploy_ACE Say Hello World!');
     }
 
 }
