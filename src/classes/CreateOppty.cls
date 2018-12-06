@@ -1,7 +1,7 @@
 public class CreateOppty {
     @AuraEnabled 
     public static Opportunity newOppty(String oppName, Id caseId) {
-        System.debug('Name2: ' + oppName);
+        System.debug('Name1: ' + oppName);
         System.debug('caseId2: ' + CaseId);
         Case caseRecord = [Select AccountId FROM Case WHERE Id=:caseId];
         Date d = Date.today().addMonths(1);
