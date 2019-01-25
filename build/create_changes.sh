@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#test
 cd ..
 echo 'Starting file diff'
 echo 'Creating destructive changes'
